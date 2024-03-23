@@ -7,15 +7,8 @@ con <- dbConnect(duckdb::duckdb(), ":memory:")
 dbExecute(con, "INSTALL spatial")
 dbExecute(con, "LOAD spatial")
 dbExecute(con, "CREATE TABLE bands AS SELECT * FROM ST_Read('RaR Bands.xlsx')")
-bands_male <- dbGetQuery(con, "SELECT * FROM bands where main_person_gender = 'male'")
+bands <- dbGetQuery(con, "SELECT * FROM bands")
 
-bands_non_male <- dbGetQuery(con, "SELECT * FROM bands where main_person_gender <> 'male'")
-
-ggplot(bands_male, aes(x=main_person_age))  + 
-  geom_histogram(
-                 binwidth = 1,
-                 colour="black", fill="green")  + 
-  geom_histogram(data=bands_non_male,
-                 binwidth = .5,
-                 colour="black", fill="blue") +
-  legend(legend = "")
+ggplot(bands, aes(x=main_person_age, fill=main_person_gender))  + 
+  geom_histogram(alpha = 0.5) + 
+  scale_fill_manual(name="main_person_gender",values=c("red","green", "blue"),labels=c("male","female", "non-binary"))
