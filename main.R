@@ -1,6 +1,7 @@
 
 library("DBI")
 library("ggplot2")
+library("duckdb")
 con <- dbConnect(duckdb::duckdb(), ":memory:")
 
 dbExecute(con, "INSTALL spatial")
@@ -10,6 +11,10 @@ bands_male <- dbGetQuery(con, "SELECT * FROM bands where main_person_gender = 'm
 
 bands_non_male <- dbGetQuery(con, "SELECT * FROM bands where main_person_gender <> 'männlich'")
 
-ggplot(bands, aes(x=main_person_age))  + 
-  geom_histogram(aes(y=..density..),     
-                 colour="black", fill="white")
+ggplot(bands_male, aes(x=main_person_age))  + 
+  geom_histogram(
+                 binwidth = 1,
+                 colour="black", fill="green")  + 
+  geom_histogram(data=bands_non_male,
+                 binwidth = .75,
+                 colour="black", fill="blue")
