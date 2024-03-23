@@ -16,5 +16,6 @@ ggplot(bands_male, aes(x=main_person_age))  +
                  binwidth = 1,
                  colour="black", fill="green")  + 
   geom_histogram(data=bands_non_male,
-                 binwidth = .75,
-                 colour="black", fill="blue")
+                 binwidth = .5,
+                 colour="black", fill="blue") +
+  legend(legend = "")
