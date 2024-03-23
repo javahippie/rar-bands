@@ -10,5 +10,5 @@ dbExecute(con, "CREATE TABLE bands AS SELECT * FROM ST_Read('RaR Bands.xlsx')")
 bands <- dbGetQuery(con, "SELECT * FROM bands")
 
 ggplot(bands, aes(x=main_person_age, fill=main_person_gender))  + 
-  geom_histogram(alpha = 0.5) + 
-  scale_fill_manual(name="main_person_gender",values=c("red","green", "blue"),labels=c("male","female", "non-binary"))
+  geom_histogram(alpha = 0.5) 
+
